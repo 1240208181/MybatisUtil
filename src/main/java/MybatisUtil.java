@@ -2,6 +2,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -48,8 +49,7 @@ public class MybatisUtil {
         }
         Configuration configuration = sqlSessionFactory.getConfiguration();
         // 创建 LanguageDriver
-        XMLLanguageDriver languageDriver = new XMLLanguageDriver();
-
+        LanguageDriver languageDriver = configuration.getDefaultScriptingLanuageInstance();
         // 创建 SqlSource
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, parameter.getClass());
 
