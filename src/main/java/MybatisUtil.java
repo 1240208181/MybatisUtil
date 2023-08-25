@@ -24,7 +24,9 @@ import java.util.regex.Matcher;
 public class MybatisUtil {
     private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final TransactionFactory TRANSACTION_FACTORY = new JdbcTransactionFactory();
+    private static SqlSessionFactory sqlSessionFactory =null;
     public static SqlSessionFactory getFactory(Connection connection) throws SQLException {
+        // 如果要连接多个不同数据库
         // 也可以自己建一个对象存储url,driverName,clientInfo 重写hashCode和equals，放到map中使用单例模式
         DatabaseMetaData metaData = connection.getMetaData();
         String url = metaData.getURL();
@@ -40,8 +42,10 @@ public class MybatisUtil {
     }
 
     public static String parseMyBatisStatement(Connection connection, String sql, Object parameter) throws SQLException {
-        SqlSessionFactory sqlSessionFactory = getFactory(connection);
-
+        // 单例模式,可以自己看情况加入双检索单例模式
+        if(sqlSessionFactory == null){
+            sqlSessionFactory = getFactory(connection);
+        }
         Configuration configuration = sqlSessionFactory.getConfiguration();
         // 创建 LanguageDriver
         XMLLanguageDriver languageDriver = new XMLLanguageDriver();
