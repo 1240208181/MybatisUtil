@@ -57,20 +57,8 @@ public class MybatisUtil {
 
         // 创建 BoundSql 对象
         BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-        return getSql(configuration, boundSql);
-
-    }
-
-
-    /**
-     * 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
-     *
-     * @param configuration 配置
-     * @param boundSql      boundSql
-     * @return String
-     */
-    public static String getSql(Configuration configuration, BoundSql boundSql) {
         return showSql(configuration, boundSql);
+
     }
 
     /**
